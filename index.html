@@ -46,9 +46,40 @@ input.txt,select.sel2{width:100%;padding:11px 14px;border:1px solid var(--hair);
 input.txt:focus,select.sel2:focus{outline:2px solid var(--rosa);outline-offset:1px}
 .notav{font-size:13px;color:var(--ink2);margin:10px 2px}
 .rodape{margin-top:34px;font-size:13px;color:var(--ink2);text-align:center}
+
+#loginWrap{position:fixed;inset:0;background:#fdf6f8;z-index:50;display:flex;align-items:center;justify-content:center;padding:20px}
+#loginCard{width:100%;max-width:360px;border:1px solid var(--hair);border-radius:20px;padding:26px 22px;background:linear-gradient(165deg,#fff,#fdf2f6);box-shadow:0 10px 30px rgba(214,120,160,.28),inset 0 1px 0 #fff}
+#loginCard h2{margin:0 0 4px;text-align:center}
+#loginCard .sub2{text-align:center;font-size:13px;color:var(--ink2);margin-bottom:14px}
+#loginCard .msg{font-size:13px;margin:8px 0;min-height:18px;text-align:center;color:#b1537f}
+#loginCard .erro{color:#c2185b}
+.linkbtn{background:none;border:none;color:#b1537f;font-size:13px;text-decoration:underline;cursor:pointer;margin-top:10px}
+#syncNota{position:fixed;left:50%;transform:translateX(-50%);bottom:12px;background:#fff3e0;border:1px solid #f2a976;color:#8a5a1a;font-size:12px;padding:6px 14px;border-radius:999px;box-shadow:0 3px 10px rgba(0,0,0,.12);display:none;z-index:60}
+#btnSair{position:fixed;top:10px;right:12px;z-index:40}
 </style>
 </head>
 <body>
+<div id="loginWrap">
+  <div id="loginCard">
+    <h2>Planner de Festas</h2>
+    <div class="sub2">Área da Decoradora &mdash; entre com seu e-mail e senha</div>
+    <div id="formLogin">
+      <label class="campo">E-mail</label><input class="txt" id="liEmail" type="email" autocomplete="email">
+      <label class="campo">Senha</label><input class="txt" id="liSenha" type="password" autocomplete="current-password">
+      <div class="acoes" style="margin-top:14px;justify-content:center"><button type="button" class="btn prim" id="liEntrar">Entrar</button></div>
+      <div style="text-align:center"><button type="button" class="linkbtn" id="liEsqueci">Esqueci minha senha</button></div>
+    </div>
+    <div id="formSenha" style="display:none">
+      <p class="notav" style="text-align:center">Crie sua senha de acesso:</p>
+      <label class="campo">Nova senha</label><input class="txt" id="nsSenha" type="password" autocomplete="new-password">
+      <label class="campo">Repita a senha</label><input class="txt" id="nsSenha2" type="password" autocomplete="new-password">
+      <div class="acoes" style="margin-top:14px;justify-content:center"><button type="button" class="btn prim" id="nsSalvar">Salvar senha e entrar</button></div>
+    </div>
+    <div class="msg" id="liMsg"></div>
+  </div>
+</div>
+<button type="button" class="btn fantasma" id="btnSair" style="display:none">Sair</button>
+<div id="syncNota">Sem conexão com a nuvem. Suas notas estão salvas neste aparelho e sincronizam quando a conexão voltar.</div>
 <div class="wrap">
   <div class="cabeca">
     <img class="logo" src="data:image/jpeg;base64,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" alt="Logo É so um bolinho!">
@@ -102,16 +133,49 @@ input.txt:focus,select.sel2:focus{outline:2px solid var(--rosa);outline-offset:1
     <div class="acoes" style="margin-top:14px"><button type="button" class="btn prim" id="obAdd">Anotar</button></div>
   </section>
 
-  <p class="rodape">As anotações ficam salvas neste aparelho. Feito no estilo de É so um bolinho! (@nefestanao).</p>
+  <p class="rodape">As anotações ficam salvas na sua conta, iguais em todos os aparelhos. Feito no estilo de É so um bolinho! (@nefestanao).</p>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const TIPOS=['Festa infantil','Festa afetiva','Só balões','Casamento','Aniversário','Outro'];
 const SITS=['Não pago','Sinal pago','Quitado'];
 const MESES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 const DS=['D','S','T','Q','Q','S','S'];
 const $=id=>document.getElementById(id);
+const SUPA_URL='https://qduarsesrpfxybxobzxz.supabase.co';
+const SUPA_KEY='sb_publishable_Ioc5_kxBQ04CH2T-nb4yZw_G8gFJmBP';
+const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
 const load=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
-const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+let pendenteSync=false;
+function nuvemFalha(){pendenteSync=true;$('syncNota').style.display='block'}
+function nuvemOk(){pendenteSync=false;$('syncNota').style.display='none'}
+async function subirTudo(){
+  const itens=[...eventos.map(p=>({id:p.id,kind:'evento',payload:p})),...pagamentos.map(p=>({id:p.id,kind:'pagamento',payload:p})),...notas.map(p=>({id:p.id,kind:'obs',payload:p}))];
+  if(!itens.length)return;
+  const{error}=await sb.from('planner_items').upsert(itens);
+  if(error)nuvemFalha();else nuvemOk();
+}
+async function subirItem(kind,p){
+  const{error}=await sb.from('planner_items').upsert({id:p.id,kind,payload:p});
+  if(error){nuvemFalha();return}
+  if(pendenteSync){await subirTudo()}else nuvemOk();
+}
+async function apagarItem(id){
+  const{error}=await sb.from('planner_items').delete().eq('id',id);
+  if(error)nuvemFalha();else nuvemOk();
+}
+function save(k,v){
+  try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}
+  const kind=k.includes('eventos')?'evento':k.includes('pagamentos')?'pagamento':'obs';
+  subirTudoKind(kind);
+}
+async function subirTudoKind(kind){
+  const arr=kind==='evento'?eventos:kind==='pagamento'?pagamentos:notas;
+  const itens=arr.map(p=>({id:p.id,kind,payload:p}));
+  if(!itens.length){nuvemOk();return}
+  const{error}=await sb.from('planner_items').upsert(itens);
+  if(error)nuvemFalha();else nuvemOk();
+}
 let eventos=load('pf.eventos.v1',[]),pagamentos=load('pf.pagamentos.v1',[]),notas=load('pf.obs.v1',[]);
 const hoje=new Date();let ano=hoje.getFullYear(),mes=hoje.getMonth(),selDia=null;
 const pad=n=>String(n).padStart(2,'0');
@@ -149,7 +213,7 @@ function renderDia(){
     <div class="acoes"><a class="btn zap" target="_blank" rel="noopener" href="${zap(msgConf(e))}">Confirmar no WhatsApp</a>
     <button type="button" class="btn fantasma" data-del="${e.id}">Remover</button></div></div>`});
   dd.innerHTML=h;
-  dd.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{eventos=eventos.filter(x=>x.id!==b.dataset.del);save('pf.eventos.v1',eventos);renderGrade();renderDia()});
+  dd.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const id=b.dataset.del;eventos=eventos.filter(x=>x.id!==id);try{localStorage.setItem('pf.eventos.v1',JSON.stringify(eventos))}catch(e){}apagarItem(id);renderGrade();renderDia()});
 }
 function renderPag(){
   let h='';if(!pagamentos.length)h='<p class="notav">Nenhum pagamento anotado ainda.</p>';
@@ -160,7 +224,7 @@ function renderPag(){
     <div class="acoes"><a class="btn zap" target="_blank" rel="noopener" href="${zap(msgCob(p))}">Cobrar no WhatsApp</a>
     <button type="button" class="btn fantasma" data-del="${p.id}">Remover</button></div></div>`});
   $('listaPag').innerHTML=h;
-  $('listaPag').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{pagamentos=pagamentos.filter(x=>x.id!==b.dataset.del);save('pf.pagamentos.v1',pagamentos);renderPag()});
+  $('listaPag').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const id=b.dataset.del;pagamentos=pagamentos.filter(x=>x.id!==id);try{localStorage.setItem('pf.pagamentos.v1',JSON.stringify(pagamentos))}catch(e){}apagarItem(id);renderPag()});
 }
 function renderObs(){
   let h='';if(!notas.length)h='<p class="notav">Nenhuma observação ainda.</p>';
@@ -168,7 +232,7 @@ function renderObs(){
     <div class="detalhe">${esc(n.texto)}</div>
     <div class="acoes"><button type="button" class="btn fantasma" data-del="${n.id}">Remover</button></div></div>`});
   $('listaObs').innerHTML=h;
-  $('listaObs').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{notas=notas.filter(x=>x.id!==b.dataset.del);save('pf.obs.v1',notas);renderObs()});
+  $('listaObs').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const id=b.dataset.del;notas=notas.filter(x=>x.id!==id);try{localStorage.setItem('pf.obs.v1',JSON.stringify(notas))}catch(e){}apagarItem(id);renderObs()});
 }
 $('evTipo').innerHTML=TIPOS.map(t=>`<option>${t}</option>`).join('');
 $('pgSituacao').innerHTML=SITS.map(s=>`<option>${s}</option>`).join('');
@@ -186,6 +250,64 @@ document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('ativo'));b.classList.add('ativo');
   ['cal','pag','obs'].forEach(a=>$('aba-'+a).style.display=a===b.dataset.aba?'':'none')});
 renderGrade();renderPag();renderObs();
+// --- Login e nuvem ---
+const liMsg=m=>{$('liMsg').textContent=m||''};
+function mostrarApp(logado){
+  $('loginWrap').style.display=logado?'none':'flex';
+  $('btnSair').style.display=logado?'':'none';
+}
+async function carregarNuvem(){
+  const{data,error}=await sb.from('planner_items').select('id,kind,payload');
+  if(error){nuvemFalha();return}
+  if(!data.length){
+    // primeira vez: manda o que estiver salvo neste aparelho para a nuvem
+    if(eventos.length||pagamentos.length||notas.length)await subirTudo();
+    return;
+  }
+  data=data.filter(r=>!r.id.startsWith('__vazio__'));
+  eventos=data.filter(r=>r.kind==='evento').map(r=>r.payload);
+  pagamentos=data.filter(r=>r.kind==='pagamento').map(r=>r.payload);
+  notas=data.filter(r=>r.kind==='obs').map(r=>r.payload);
+  try{localStorage.setItem('pf.eventos.v1',JSON.stringify(eventos));localStorage.setItem('pf.pagamentos.v1',JSON.stringify(pagamentos));localStorage.setItem('pf.obs.v1',JSON.stringify(notas))}catch(e){}
+  nuvemOk();renderGrade();renderDia();renderPag();renderObs();
+}
+$('liEntrar').onclick=async()=>{
+  liMsg('Entrando...');$('liMsg').className='msg';
+  const{error}=await sb.auth.signInWithPassword({email:$('liEmail').value.trim(),password:$('liSenha').value});
+  if(error){liMsg('E-mail ou senha não conferem. Tente de novo.');$('liMsg').className='msg erro'}
+};
+$('liEsqueci').onclick=async()=>{
+  const em=$('liEmail').value.trim();
+  if(!em){liMsg('Digite seu e-mail primeiro.');$('liMsg').className='msg erro';return}
+  liMsg('Enviando...');$('liMsg').className='msg';
+  const{error}=await sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+location.pathname});
+  liMsg(error?'Não consegui enviar agora. Tente de novo em alguns minutos.':'Enviamos um link para o seu e-mail. Toque nele para criar uma nova senha.');
+  if(error)$('liMsg').className='msg erro';
+};
+$('nsSalvar').onclick=async()=>{
+  const s1=$('nsSenha').value,s2=$('nsSenha2').value;
+  if(s1.length<6){liMsg('A senha precisa de pelo menos 6 caracteres.');$('liMsg').className='msg erro';return}
+  if(s1!==s2){liMsg('As duas senhas não são iguais.');$('liMsg').className='msg erro';return}
+  liMsg('Salvando...');$('liMsg').className='msg';
+  const{error}=await sb.auth.updateUser({password:s1});
+  if(error){liMsg('Este link expirou. Peça um novo em "Esqueci minha senha".');$('liMsg').className='msg erro';return}
+  liMsg('');$('formSenha').style.display='none';$('formLogin').style.display='';mostrarApp(true);carregarNuvem();
+};
+$('btnSair').onclick=async()=>{await sb.auth.signOut();mostrarApp(false)};
+(async()=>{
+  // chegada por link de convite ou de redefinição de senha
+  if(/type=(invite|recovery)/.test(location.hash)){
+    $('formLogin').style.display='none';$('formSenha').style.display='';liMsg('');
+    return;
+  }
+  const{data:{session}}=await sb.auth.getSession();
+  mostrarApp(!!session);
+  if(session)carregarNuvem();
+})();
+sb.auth.onAuthStateChange((ev,session)=>{
+  if(ev==='SIGNED_IN'){mostrarApp(true);carregarNuvem()}
+  if(ev==='SIGNED_OUT'){mostrarApp(false)}
+});
 </script>
 </body>
 </html>
